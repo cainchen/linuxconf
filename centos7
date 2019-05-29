@@ -1,0 +1,64 @@
+## --- ~/.ssh/config ---
+Host *
+ AddKeysToAgent yes
+# UseKeychain yes
+ IdentityFile ~/.ssh/id_rsa
+ Compression yes
+ ServerAliveInterval 60
+ ServerAliveCountMax 5
+ ControlMaster auto
+ ControlPath ~/.ssh/ssh-%r@%h:%p
+ ControlPersist 4h
+Host master
+HostName 192.168.43.170
+## --- End ---
+
+## --- /etc/ssh/sshd_config ---
+Port 22
+ListenAddress 0.0.0.0
+HostKey /etc/ssh/ssh_host_rsa_key
+HostKey /etc/ssh/ssh_host_ecdsa_key
+HostKey /etc/ssh/ssh_host_ed25519_key
+SyslogFacility AUTHPRIV
+AuthorizedKeysFile .ssh/authorized_keys
+PasswordAuthentication yes
+ChallengeResponseAuthentication no
+GSSAPIAuthentication no
+GSSAPICleanupCredentials no
+UsePAM yes
+X11Forwarding yes
+UseDNS no
+AcceptEnv LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
+AcceptEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
+AcceptEnv LC_IDENTIFICATION LC_ALL LANGUAGE
+AcceptEnv XMODIFIERS
+Subsystem sftp /usr/libexec/openssh/sftp-server
+## --- End ---
+
+## --- /etc/sysctl.conf ---
+net.ipv6.conf.all.disable_ipv6=1
+net.ipv6.conf.default.disable_ipv6=1
+net.ipv6.conf.lo.disable_ipv6=1
+## --- End ---
+
+## --- /etc/sysconfig/network-scripts/ifcfg-xxxx ---
+TYPE=Ethernet
+PROXY_METHOD=none
+BROWSER_ONLY=no
+BOOTPROTO=static
+DEFROUTE=yes
+IPV4_FAILURE_FATAL=no
+IPV6INIT=no
+IPV6_AUTOCONF=yes
+IPV6_DEFROUTE=yes
+IPV6_FAILURE_FATAL=no
+IPV6_ADDR_GEN_MODE=stable-privacy
+NAME=enp0s3
+UUID=602c2a2c-3416-4f7c-aecd-10307a3571bb
+DEVICE=enp0s3
+ONBOOT=yes
+IPADDR=192.168.43.170
+NETMASK=255.255.255.0
+GATEWAY=192.168.43.1
+NM_CONTROLLED=no
+## --- End ---
